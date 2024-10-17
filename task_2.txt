@@ -1,0 +1,30 @@
+
+SELECT
+    c.id,
+    c.internal_name,
+    c.person,
+    json_extract(c.heads, '$.*.surname') AS actual_manager_surname,
+    json_extract(c.heads, '$.*.first_name') AS actual_manager_first_name,
+    json_extract(c.heads, '$.*.middle_name') AS actual_manager_middle_name
+FROM
+    counterparties.counterparties c
+WHERE
+    c.active = 1
+ORDER BY
+    c.person ASC,
+    c.internal_name ASC;
+
+
+
+### 2. Вывод списка банков для определенного заказчика по его уникальному полю (например, ИНН):
+
+
+SELECT
+    json_extract(c.banks, '$.*.name') AS bank_name,
+    json_extract(c.banks, '$.*.account') AS account_number,
+    json_extract(c.banks, '$.*.corr_account') AS corr_account_number,
+    json_extract(c.banks, '$.*.bik') AS bik
+FROM
+    counterparties.counterparties c
+WHERE
+    c.INN = '5073530173';
